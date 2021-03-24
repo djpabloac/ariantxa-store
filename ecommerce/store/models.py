@@ -22,7 +22,11 @@ class Product(models.Model):
         return self.name
 
     @property
+<<<<<<< HEAD
     def image_url(self):
+=======
+    def imageURL(self):
+>>>>>>> 81b92c7d038d4be2aa81698bf5d5bfe9bba59fe4
         try:
             url = self.image.url
         except:
@@ -32,13 +36,18 @@ class Product(models.Model):
 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
+<<<<<<< HEAD
     date_order = models.DateTimeField(auto_now_add=True)
+=======
+    date_orderd = models.DateTimeField(auto_now_add=True)
+>>>>>>> 81b92c7d038d4be2aa81698bf5d5bfe9bba59fe4
     complete = models.BooleanField(default=False, null=True, blank=False)
     transaction_id = models.CharField(max_length=200, null=True)
 
     def __str__(self):
         return str(self.id)
 
+<<<<<<< HEAD
     @property
     def get_cart_total(self):
         order_items = self.orderitem_set.all()
@@ -51,6 +60,8 @@ class Order(models.Model):
         total = order_items.count()
         return total
 
+=======
+>>>>>>> 81b92c7d038d4be2aa81698bf5d5bfe9bba59fe4
 
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True, null=True)
@@ -61,11 +72,14 @@ class OrderItem(models.Model):
     def __str__(self):
         return self.product.name
 
+<<<<<<< HEAD
     @property
     def get_total(self):
         total = self.product.price * self.quantity
         return total
 
+=======
+>>>>>>> 81b92c7d038d4be2aa81698bf5d5bfe9bba59fe4
 
 class ShippingAddress(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
