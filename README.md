@@ -10,9 +10,17 @@ Use el administrador de paquetes [pip](https://pip.pypa.io/en/stable/) para inst
 
 ```python
 asgiref==3.3.1
+astroid==2.5.1
 Django==3.1.7
+isort==5.8.0
+lazy-object-proxy==1.6.0
+mccabe==0.6.1
+Pillow==8.1.2
+pylint==2.7.2
 pytz==2021.1
 sqlparse==0.4.1
+toml==0.10.2
+wrapt==1.12.1
 ```
 o
 ```python
