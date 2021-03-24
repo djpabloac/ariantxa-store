@@ -48,8 +48,17 @@ class Order(models.Model):
     @property
     def get_cart_items(self):
         order_items = self.orderitem_set.all()
-        total = order_items.count()
+        total = sum([item.quantity for item in order_items])
         return total
+
+    @property
+    def shipping(self):
+        shipping = False
+        order_items = self.orderitem_set.all()
+        for order_item in order_items:
+            if order_item.product.digital == False:
+                shipping = True
+        return shipping
 
 
 class OrderItem(models.Model):
