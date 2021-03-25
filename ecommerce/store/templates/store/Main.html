@@ -14,7 +14,7 @@
     <script type="text/javascript">
         const user = "{{request.user}}"
 
-        function getCookie(name){
+        function getToken(name){
             let cookieValue = null
             if(document.cookie && document.cookie !== ''){
                 const cookies = document.cookie.split(';')
@@ -29,7 +29,27 @@
             return cookieValue
         }
 
-        const csrftoken = getCookie("csrftoken")
+        const csrftoken = getToken("csrftoken")
+
+        function getCookie(name){
+            let cookieArr = document.cookie.split(';')
+
+            for (let index = 0; index < cookieArr.length; index++) {
+                const cookiePair = cookieArr[index].split("=")
+                if (name == cookiePair[0].trim()){
+                    return decodeURIComponent(cookiePair[1])
+                }
+            }
+            
+            return null
+        }
+
+        var cart = JSON.parse(getCookie('cart'))
+
+		if (cart == undefined){
+			cart = {}
+			document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+		}
     </script>
 </head>
 <body>

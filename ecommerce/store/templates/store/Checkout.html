@@ -43,7 +43,8 @@
 			<br>
 			<div class="box-element hidden" id="payment-info">
 				<small>Paypal Options</small>
-				<button id="make-payment">Make Payment</button>
+				<!-- <button id="make-payment">Make Payment</button> -->
+				<div id="paypal-button-container"></div>
 			</div>
 			
 		</div>
@@ -71,8 +72,11 @@
 	</div>
 
 	<script type="text/javascript">
+		let total = '{{order.get_cart_total}}'
+	</script>
+	
+	<script type="text/javascript">
 		let shipping = "{{order.shipping}}"
-		let total = "{{order.get_cart_total | floatformat:2}}"
 
 		if (shipping == "False"){
 			document.getElementById("shipping-info").innerHTML = ""
@@ -90,7 +94,6 @@
 		const form = document.getElementById("form")
 		form.addEventListener("submit", function(e){
 			e.preventDefault()
-			console.log("Form Submitted...")
 			document.getElementById("form-button").classList.add("hidden")
 			document.getElementById("payment-info").classList.remove("hidden")
 		})
@@ -123,8 +126,8 @@
 			}
 
 			if (user == "AnonymousUser"){
-				shippingInfo.name = form.name.value
-				shippingInfo.email = form.email.value
+				userFormData.name = form.name.value
+				userFormData.email = form.email.value
 			}
 
 			const url = '/process_order/'
@@ -143,6 +146,8 @@
 				response.json()
 			}).then((data) => {
 				alert("Transaction completed")
+				cart = {}
+				document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
 				window.location.href = "{% url 'store' %}"
 			})
 		}
