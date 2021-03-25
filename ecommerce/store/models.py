@@ -9,7 +9,7 @@ class Customer(models.Model):
     email = models.CharField(max_length=200, null=True)
 
     def __str__(self):
-        return self.name
+        return self.name, self.email
 
 
 class Product(models.Model):
@@ -19,7 +19,7 @@ class Product(models.Model):
     image = models.ImageField(null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return self.name, self.price, self.image.url
 
     @property
     def image_url(self):
@@ -37,7 +37,7 @@ class Order(models.Model):
     transaction_id = models.CharField(max_length=200, null=True)
 
     def __str__(self):
-        return str(self.id)
+        return str(self.id), self.customer, self.complete, self.transaction_id
 
     @property
     def get_cart_total(self):
@@ -68,7 +68,7 @@ class OrderItem(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.product.name
+        return self.order.id, self.product.name, self.quantity
 
     @property
     def get_total(self):
@@ -86,4 +86,4 @@ class ShippingAddress(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.address
+        return self.customer.name, self.order.id, self.address

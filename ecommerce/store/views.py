@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 import json
+import datetime
 from .models import *
 
 
@@ -32,16 +33,8 @@ def cart(request):
 
 
 def checkout(request):
-    if request.user.is_authenticated:
-        customer = request.user.customer
-        order, create = Order.objects.get_or_create(customer=customer, complete=False)
-        items = order.orderitem_set.all()
-    else:
-        customer = {}
-        items = []
-        order = {'get_cart_items': 0, 'get_cart_total': 0}
-
-    context = {'customer': customer, 'order': order, 'items': items}
+    order, items, cartItems = cartLogic(request)
+    context = {'order': order, 'items': items, 'cartItems': cartItems}
     return render(request, 'store/checkout.html', context)
 
 
@@ -66,3 +59,33 @@ def updateItem(request):
         orderItem.delete()
 
     return JsonResponse('Item was added', safe=False)
+
+
+def processOrder(request):
+    transactionId = datetime.datetime.now().timestamp()
+    data = json.loads(request.body)
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        total = float(data["form"]["total"])
+        order.transactionId = transactionId
+
+        if total == order.get_cart_total:
+            order.complete = True
+        
+        order.save()
+
+        if order.complete == True:
+            ShippingAddress.objects.create(
+                customer=customer,
+                order=order,
+                address=data["shipping"]["address"],
+                city=data["shipping"]["city"],
+                state=data["shipping"]["state"],
+                zipcode=data["shipping"]["zipcode"]
+            )
+
+    else:
+        print('Use is not logged in...')
+    return JsonResponse('Payment completed', safe=False)
