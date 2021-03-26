@@ -17,6 +17,7 @@ lazy-object-proxy==1.6.0
 mccabe==0.6.1
 Pillow==8.1.2
 pylint==2.7.2
+python-dotenv==0.15.0
 pytz==2021.1
 sqlparse==0.4.1
 toml==0.10.2
