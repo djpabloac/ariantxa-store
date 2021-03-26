@@ -1,10 +1,10 @@
-from django.shortcuts import render
-from django.http import JsonResponse
 import json
 import datetime
-from .models import *
-from .utils import  cookieCart, cartData, guestOrder
-
+import os
+from django.shortcuts import render
+from django.http import JsonResponse
+from store.models import *
+from store.utils import  cookieCart, cartData, guestOrder
 
 # Create your views here.
 def store(request):
@@ -34,8 +34,9 @@ def checkout(request):
     cartItems = data['cartItems']
     order = data['order']
     items = data['items']
+    clientID =  os.getenv("YOUR_CLIENT_ID")
 
-    context = {'order': order, 'items': items, 'cartItems': cartItems}
+    context = {'order': order, 'items': items, 'cartItems': cartItems, 'YOUR_CLIENT_ID': clientID}
     return render(request, 'store/checkout.html', context)
 
 
@@ -46,8 +47,8 @@ def updateItem(request):
 
     customer = request.user.customer
     product = Product.objects.get(pk=productId)
-    order, create = Order.objects.get_or_create(customer=customer, complete=False)
-    orderItem, create = OrderItem.objects.get_or_create(order=order, product=product)
+    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
 
     if action == 'add':
         orderItem.quantity = (orderItem.quantity + 1)
