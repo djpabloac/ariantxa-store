@@ -91,3 +91,11 @@ def processOrder(request):
         )
 
     return JsonResponse('Payment submitted..', safe=False)
+
+def login(request):
+    context = { "pub_date": datetime.datetime.now() }
+    return render(request, 'accounts/login.html', context)
+
+def register(request):
+    context = {}
+    return render(request, 'accounts/register.html', context)

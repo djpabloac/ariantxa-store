@@ -1,0 +1,50 @@
+{% extends 'accounts/main.html' %}
+{% load static %}
+
+<{% block head %} <title>Register</title>
+    {% endblock head %}
+
+    {% block content %}
+
+    <form class="needs-validation" novalidate="">
+
+        <div class="text-center mb-4">
+            <img class="mb-4" src="{% static 'images/main.svg' %}" alt="" width="72" height="72">
+            <h1 class="h3 mb-3 font-weight-normal">Ariantxa Store</h1>
+            <p>It is registered. Go to <a href="{% url 'login' %}">login</a>.</p>
+        </div>
+
+        <div class="mb-3">
+            <label for="firstName">Username</label>
+            <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+            <div class="invalid-feedback">
+                Valid first name is required.
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" placeholder="you@example.com">
+            <div class="invalid-feedback">
+                Please enter a valid email address for shipping updates.
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="password1">Password 1</label>
+            <input type="password" class="form-control" id="password1">
+        </div>
+
+        <div class="mb-3">
+            <label for="password2">Password 2</label>
+            <input type="password" class="form-control" id="password2">
+            <div class="invalid-feedback">
+                Please enter a valid email address for shipping updates.
+            </div>
+        </div>
+
+        <hr class="mb-4">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to register</button>
+    </form>
+
+    {% endblock content %}
