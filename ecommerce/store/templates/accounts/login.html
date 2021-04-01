@@ -1,39 +1,43 @@
 {% extends 'accounts/main.html' %}
 {% load static %}
 
-<{% block head %} 
+<{% block head %} <title>Login</title>
 
-<title>Login</title>
+    {% endblock head %}
 
-{% endblock head %}
-
-{% block content %}
+    {% block content %}
 
     <form class="form-signin">
         <div class="text-center mb-4">
-            <img class="mb-4" src="{% static 'images/main.svg' %}" alt="" width="72" height="72">
-            <h1 class="h3 mb-3 font-weight-normal">Ariantxa Store</h1>
-            <p>It is not registered. Go to <a href="{% url 'register' %}">register</a>.</p>
+            <a class="nav-link" href="{% url 'store' %}">
+                <img class="mb-4" src="{% static 'images/main.svg' %}" alt="" width="72" height="72">
+                <h1 class="h3 mb-3 font-weight-normal">Ariantxa Store</h1>
+            </a>
         </div>
 
         <div class="form-label-group">
-            <label for="inputEmail">Email address</label>
-            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+            <label for="inputUsername" class="sr-only">Username</label>
+            <input type="text" id="inputUsername" class="form-control username" placeholder="Username" required=""
+                autofocus="">
         </div>
-        <br />
+
         <div class="form-label-group">
-            <label for="inputPassword">Password</label>
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" id="inputPassword" class="form-control password" placeholder="Password" required="">
         </div>
-        <br />
+
         <div class="checkbox mb-3">
             <label>
                 <input type="checkbox" value="remember-me"> Remember me
             </label>
         </div>
-        <hr>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <hr>
+        <div class="text-center mb-4">
+            <p>It is not registered. Go to <a href="{% url 'register' %}">register</a>.</p>
+        </div>
+
         <p class="mt-5 mb-3 text-muted text-center">© {{ pub_date | date:"Y"}}</p>
     </form>
 
-{% endblock content %}
+    {% endblock content %}
