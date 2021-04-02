@@ -7,37 +7,62 @@
 
     {% block content %}
 
-    <form class="form-signin">
-        <div class="text-center mb-4">
-            <a class="nav-link" href="{% url 'store' %}">
-                <img class="mb-4" src="{% static 'images/main.svg' %}" alt="" width="72" height="72">
-                <h1 class="h3 mb-3 font-weight-normal">Ariantxa Store</h1>
-            </a>
-        </div>
+    <div class="form-signin">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="text-center mb-4">
+                <a class="nav-link" href="{% url 'store' %}">
+                    <img class="mb-4" src="{% static 'images/main.svg' %}" alt="" width="72" height="72">
+                    <h1 class="h3 mb-3 font-weight-normal">Ariantxa Store</h1>
+                </a>
+            </div>
 
-        <div class="form-label-group">
-            <label for="inputUsername" class="sr-only">Username</label>
-            <input type="text" id="inputUsername" class="form-control username" placeholder="Username" required=""
-                autofocus="">
-        </div>
+            <div class="form-label-group">
+                <label for="username" class="sr-only">Username</label>
+                <input type="text" id="username" name="username" class="form-control username" placeholder="Username" required=""
+                    autofocus="">
+            </div>
 
-        <div class="form-label-group">
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" id="inputPassword" class="form-control password" placeholder="Password" required="">
-        </div>
+            <div class="form-label-group">
+                <label for="password" class="sr-only">Password</label>
+                <input type="password" id="password" name="password" class="form-control password" placeholder="Password"
+                    required="">
+            </div>
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" value="remember-me"> Remember me
-            </label>
-        </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <!-- <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
+            </div> -->
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit" id="singin">Sign in</button>
+        
+            <div class="mb-3">
+                <br/>
+                {% for message in messages %}
+					<p id="messages">{{message}}</p>
+				{% endfor %}
+            </div>
+        </form>
+
         <hr>
         <div class="text-center mb-4">
             <p>It is not registered. Go to <a href="{% url 'register' %}">register</a>.</p>
         </div>
 
         <p class="mt-5 mb-3 text-muted text-center">© {{ pub_date | date:"Y"}}</p>
-    </form>
+    </div>
+
+    <script type="text/javascript">
+        const singIn = document.getElementById('singin')
+
+        singIn.addEventListener('click', function () {
+            submitFormData()
+        })
+
+        function submitFormData() {
+            console.log('Click login....')
+        }
+    </script>
 
     {% endblock content %}

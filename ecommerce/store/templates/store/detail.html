@@ -1,0 +1,29 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+<div class="row">
+
+    <div class="embed-responsive">
+        <div class="box-element" style="background-color: #fff;">
+            <a class="btn btn-outline-success" href="{% url 'store' %}">&#x2190; Continue Shopping</a>
+            
+            <hr>
+
+            <img class="rounded mx-auto d-block" src="{{product.image_url}}" />
+        </div>
+        <div class="box-element product" style="box-shadow: none">
+            <h6><strong>{{product.name}}</strong></h6>
+
+            <hr>
+
+            <button data-product="{{product.id}}" data-action="add"
+                class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+            <h4 style="display:inline-block; float:right"><strong>${{product.price|floatformat:2}}</strong></h4>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}

@@ -1,21 +1,35 @@
 import json
 import datetime
 import os
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from store.models import *
 from store.utils import  cookieCart, cartData, guestOrder
+from store.forms import UserCreationForm
 
 # Create your views here.
 def store(request):
     data = cartData(request)
-
+    
     cartItems = data['cartItems']
 
     products = Product.objects.all()
     context = {'products': products, 'cartItems': cartItems}
     return render(request, 'store/store.html', context)
 
+
+def detail(request, id):
+    data = cartData(request)
+    
+    cartItems = data['cartItems']
+
+    product = Product.objects.get(pk=id)
+
+    context = { "product": product, 'cartItems': cartItems }
+    return render(request, 'store/detail.html', context)
+    
 
 def cart(request):
     data = cartData(request)
@@ -47,7 +61,7 @@ def updateItem(request):
 
     customer = request.user.customer
     product = Product.objects.get(pk=productId)
-    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    order, created = Order.objects.get_or_create(customer=customer, complete=False, transaction_id=0)
     orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
 
     if action == 'add':
@@ -69,7 +83,7 @@ def processOrder(request):
 
     if request.user.is_authenticated:
         customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        order, created = Order.objects.get_or_create(customer=customer, complete=False, transaction_id=0)
     else:
         customer, order = guestOrder(request, data)
 
@@ -92,10 +106,42 @@ def processOrder(request):
 
     return JsonResponse('Payment submitted..', safe=False)
 
-def login(request):
+def signIn(request):
+
+    if request.user.is_authenticated:
+        return redirect('store')
+    else:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password =request.POST.get('password')
+
+            user = authenticate(request, username=username, password=password)
+           
+            if user is not None:
+                login(request, user)
+                return redirect('store')
+            else:
+                messages.info(request, 'Username OR password is incorrect')
+
     context = { "pub_date": datetime.datetime.now() }
     return render(request, 'accounts/login.html', context)
 
+
+def signOut(request):
+    logout(request)
+    return redirect('login')
+
+
 def register(request):
-    context = {}
+    form = UserCreationForm()
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            user = form.cleaned_data.get('username')
+            messages.success(request, 'Account was created for ' + user)
+            return redirect('login')
+
+    context = {'form': form}
     return render(request, 'accounts/register.html', context)
