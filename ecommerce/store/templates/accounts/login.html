@@ -29,12 +29,6 @@
                     required="">
             </div>
 
-            <!-- <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" value="remember-me"> Remember me
-                </label>
-            </div> -->
-
             <button class="btn btn-lg btn-primary btn-block" type="submit" id="singin">Sign in</button>
         
             <div class="mb-3">
@@ -47,7 +41,9 @@
 
         <hr>
         <div class="text-center mb-4">
-            <p>It is not registered. Go to <a href="{% url 'register' %}">register</a>.</p>
+            <p>
+                It is not registered. Go to <a href="{% url 'register' %}">register</a>. You don't <a href="{% url 'password_reset' %}">remember</a> your password?
+            </p>
         </div>
 
         <p class="mt-5 mb-3 text-muted text-center">© {{ pub_date | date:"Y"}}</p>

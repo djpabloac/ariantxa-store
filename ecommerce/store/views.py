@@ -129,7 +129,7 @@ def signIn(request):
 
 def signOut(request):
     logout(request)
-    return redirect('login')
+    return redirect('store')
 
 
 def register(request):
