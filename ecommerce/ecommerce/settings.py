@@ -102,26 +102,26 @@ MEDIA_URL = '/images/product/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images/product')
 
-from .settings_local import *
+# from .settings_local import *
 
-# # Write in settings_local.py
-# # Database
-# # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+# Write in settings_local.py
+# Database
+# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
-# # Paypal
-# YOUR_CLIENT_ID='<Your_Client_Id>'
+# Paypal
+YOUR_CLIENT_ID='<Your_Client_Id>'
 
-# # Email
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = '587'
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = '<correo>'
-# EMAIL_HOST_PASSWORD = '<password>'
+# Email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = '<correo>'
+EMAIL_HOST_PASSWORD = '<password>'
