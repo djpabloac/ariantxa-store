@@ -1,13 +1,21 @@
 import json
 import datetime
 import os
+from django.conf import settings
+
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from store.models import *
-from store.utils import  cookieCart, cartData, guestOrder
+from store.utils import  cookieCart, cartData, guestOrder, get_protocol
 from store.forms import UserCreationForm
+
+from django.contrib.sites.shortcuts import get_current_site
 
 # Create your views here.
 def store(request):
@@ -48,9 +56,15 @@ def checkout(request):
     cartItems = data['cartItems']
     order = data['order']
     items = data['items']
-    clientID =  os.getenv("YOUR_CLIENT_ID")
-
-    context = {'order': order, 'items': items, 'cartItems': cartItems, 'YOUR_CLIENT_ID': clientID}
+    clientID = settings.YOUR_CLIENT_ID
+    
+    context = {
+        'order': order, 
+        'items': items, 
+        'cartItems': cartItems, 
+        'YOUR_CLIENT_ID': clientID,
+        'YOUR_FROM_WHERE_ARE': 'USD' # order.get_cart_items_currency
+    }
     return render(request, 'store/checkout.html', context)
 
 
@@ -103,8 +117,28 @@ def processOrder(request):
             state=data['shipping']['state'],
             zipcode=data['shipping']['zipcode'],
         )
+        processOrderEmail(request, customer)
 
     return JsonResponse('Payment submitted..', safe=False)
+
+def processOrderEmail(request, customer):
+    username = customer.user.username
+    email = customer.email
+   
+    print(username)
+    print(email)
+    
+    template = render_to_string('store/checkout_email.html', {})
+    
+    email = EmailMessage(
+        'Thanks for your purchase!!',
+        template,
+        settings.EMAIL_HOST_USER,
+        [email],
+    )
+    email.fail_silently = False
+    email.send()
+
 
 def signIn(request):
 
@@ -141,7 +175,30 @@ def register(request):
             form.save()
             user = form.cleaned_data.get('username')
             messages.success(request, 'Account was created for ' + user)
+            registerEmail(request)
             return redirect('login')
 
     context = {'form': form}
     return render(request, 'accounts/register.html', context)
+
+
+def registerEmail(request):
+    username = request.POST.get('username')
+    email = request.POST.get('email')
+    domain = get_current_site(request)
+    protocol = get_protocol(request)
+
+    template = render_to_string('accounts/register_email.html', {
+        'name': username,
+        'domain': domain,
+        'protocol': protocol
+        })
+    
+    email = EmailMessage(
+        'Thanks for signing up!!',
+        template,
+        settings.EMAIL_HOST_USER,
+        [email],
+    )
+    email.fail_silently = False
+    email.send()

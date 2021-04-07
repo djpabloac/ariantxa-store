@@ -83,3 +83,11 @@ def guestOrder(request, data):
 		)
         
 	return customer, order
+
+
+def get_protocol(request):
+	protocol = 'http'
+	if request.is_secure():
+		protocol = 'https'
+
+	return protocol

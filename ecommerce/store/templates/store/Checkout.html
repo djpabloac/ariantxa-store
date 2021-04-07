@@ -60,22 +60,26 @@
 				<div class="cart-row">
 					<div style="flex:2"><img class="row-image" src="{{item.product.image_url}}"></div>
 					<div style="flex:2"><p>{{item.product.name}}</p></div>
-					<div style="flex:1"><p>${{item.product.price | floatformat:2}}</p></div>
+					<div style="flex:1"><p>{{item.product.currency}}{{item.product.price | floatformat:2}}</p></div>
 					<div style="flex:1"><p>x{{item.quantity}}</p></div>
 				</div>
 				{% endfor %}
 
 				<h5>Items:   {{order.get_cart_items}}</h5>
-				<h5>Total:   ${{order.get_cart_total | floatformat:2}}</h5>
+				<h5>Total:   {{order.get_cart_items_currency}}{{order.get_cart_total | floatformat:2}}</h5>
 			</div>
 		</div>
 	</div>
 
-	<script src="https://www.paypal.com/sdk/js?client-id={{YOUR_CLIENT_ID}}&currency=USD&disable-funding=credit"></script>
+	<script src="https://www.paypal.com/sdk/js?client-id={{YOUR_CLIENT_ID}}&currency={{YOUR_FROM_WHERE_ARE}}&disable-funding=credit"></script>
 
 	<script>
 		let total = '{{order.get_cart_total}}'
-        
+        let currency = '{{order.get_cart_items_currency}}'
+
+		if (currency === 'PEN')
+			total = total / 3.65
+
         paypal.Buttons({
         	style: {
                 color:  'blue',
