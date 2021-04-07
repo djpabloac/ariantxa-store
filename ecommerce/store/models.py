@@ -13,7 +13,16 @@ class Customer(models.Model):
 
 
 class Product(models.Model):
+
+    CURRENCY_DEFAUL = 'PEN'
+
+    CURRENCY_CHOICE = [
+        (CURRENCY_DEFAUL, 'Perú'),
+        ('USD', 'United States')
+    ]
+
     name = models.CharField(max_length=200)
+    currency = models.CharField(max_length=30, choices=CURRENCY_CHOICE, default=CURRENCY_DEFAUL)
     price = models.DecimalField(max_digits=7, decimal_places=2)
     digital = models.BooleanField(default=False, null=True, blank=False)
     image = models.ImageField(null=True, blank=True)
@@ -28,6 +37,14 @@ class Product(models.Model):
         except:
             url = ''
         return url
+
+
+class ProductExt(models.Model):
+    product = models.OneToOneField(Product, on_delete=models.CASCADE, null=True, blank=True)
+    description= models.CharField(max_length=1000)
+
+    def __str__(self):
+        return self.description
 
 
 class Order(models.Model):
@@ -50,6 +67,12 @@ class Order(models.Model):
         order_items = self.orderitem_set.all()
         total = sum([item.quantity for item in order_items])
         return total
+
+    @property
+    def get_cart_items_currency(self):
+        order_items = self.orderitem_set.all()
+        currency = max([item.get_total_currency for item in order_items])
+        return currency
 
     @property
     def shipping(self):
@@ -75,6 +98,10 @@ class OrderItem(models.Model):
         total = self.product.price * self.quantity
         return total
 
+    @property
+    def get_total_currency(self):
+        currency = self.product.currency
+        return currency
 
 class ShippingAddress(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
