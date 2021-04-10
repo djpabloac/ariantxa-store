@@ -12,6 +12,7 @@ Use el administrador de paquetes [pip](https://pip.pypa.io/en/stable/) para inst
 asgiref==3.3.1
 astroid==2.5.1
 Django==3.1.7
+gunicorn==20.1.0
 isort==5.8.0
 lazy-object-proxy==1.6.0
 mccabe==0.6.1
