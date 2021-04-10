@@ -1,3 +1,2 @@
 release: python ecommerce/manage.py migrate
-web: cd ecommerce
-web: gunicorn ecommerce.wsgi --log-file -
+web: cd ecommerce && gunicorn ecommerce.wsgi --log-file -
