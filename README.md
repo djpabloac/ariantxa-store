@@ -1,12 +1,12 @@
-# Proyecto Ariantxa Store 
+# Ariantxa Store Project 
 
-Ariantxa Store es una aplicación web elaborado en python con el framework django.
+Ariantxa Store is an e-commerce web application made in python with the django framework.
 
-## Instalando
+## Getting Started
 
-Use el administrador de paquetes [pip](https://pip.pypa.io/en/stable/) para instalar Ariantxan Store.
+Use package manager [pip] (https://pip.pypa.io/en/stable/) to install the packages required to run Ariantxan Store.
 
-## Paquetes a installar
+## Packages
 
 ```python
 asgiref==3.3.1
@@ -24,10 +24,17 @@ sqlparse==0.4.1
 toml==0.10.2
 wrapt==1.12.1
 ```
+
 o
+
 ```python
 pip install -r requirements.txt
 ```
 
+## Authors
+
+- [@dj.pablo.ac](https://gitlab.com/dj.pablo.ac)
+
 ## Licencia
+
 [MIT](https://choosealicense.com/licenses/mit/)
