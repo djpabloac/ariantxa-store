@@ -4,7 +4,7 @@ Ariantxa Store is an e-commerce web application made in python with the django f
 
 ## Getting Started
 
-Use package manager [pip] (https://pip.pypa.io/en/stable/) to install the packages required to run Ariantxan Store.
+Use package manager [pip](https://pip.pypa.io/en/stable/) to install the packages required to run Ariantxan Store.
 
 ## Packages
 
