@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -126,3 +127,5 @@ EMAIL_HOST_USER = 'test.pablo.ac@gmail.com'
 EMAIL_HOST_PASSWORD = 'Tu63EwkYyxcjfA5G'
 
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+
+django_heroku.settings(locals())
