@@ -11,9 +11,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'wn3^@9yigz2wns5px-8ff$__yi1)2c4w4=i5j=gntc+3u71ou7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['ariantxa-store.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -93,6 +93,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+print(BASE_DIR)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = '/static/'
@@ -106,12 +107,6 @@ MEDIA_URL = '/images/product/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images/product')
 
-# from .settings_local import *
-
-# Write in settings_local.py
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -120,12 +115,14 @@ DATABASES = {
 }
 
 # Paypal
-YOUR_CLIENT_ID='<Your_Client_Id>'
+YOUR_CLIENT_ID='Aa__FNpiKF69liEHfzIWMDfG8scsCdtpX8Fd2I38dXwEgok-3qUiUGwV8L5rI4bZbjO-nyDBo2UgT61y'
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = '587'
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = '<correo>'
-EMAIL_HOST_PASSWORD = '<password>'
+EMAIL_HOST_USER = 'test.pablo.ac@gmail.com'
+EMAIL_HOST_PASSWORD = 'Tu63EwkYyxcjfA5G'
+
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'
